@@ -1,0 +1,51 @@
+AL 34 54 9 Oct Capital Survey
+AK 42 53 3 Oct Ivan Moore Research
+AZ 41 49 10 Oct Northern Arizona U.
+AR 41 52 6 Oct Research2000
+CA 61 34 55 Oct Rasmussen
+CO 50 46 9 Oct Rasmussen
+CT 56 31 7 Oct U. of Connecticut
+DE 56 41 3 Oct Rasmussen
+DC 82 13 3 Sep ARG
+FL 47 47 27 Oct Zogby
+GA 43 49 15 Oct Mason-Dixon
+HI 68 27 4 Sep Rasmussen
+ID 33 62 4 Sep Research2000
+IL 59 35 21 Oct Research2000
+IN 44 50 11 Oct Zogby
+IA 52 42 7 Oct Marist Coll.
+KS 41 53 6 Oct SurveyUSA
+KY 39 55 8 Oct Research2000
+LA 41 57 9 Oct Rasmussen
+ME 54 39 4 Oct SurveyUSA
+MD 60 37 10 Sep Rasmussen
+MA 53 34 12 Oct Suffolk U.
+MI 51 37 17 Oct EPIC-MRA
+MN 42 37 10 Oct St. Cloud State U.
+MS 33 46 6 Oct U. of South Alabama
+MO 48 46 11 Oct Zogby
+MT 44 40 3 Oct Montana State U.
+NE 37 56 5 Sep Rasmussen
+NV 48 44 5 Oct Zogby
+NH 50 45 4 Oct Marist Coll.
+NJ 56 39 15 Oct Marist Coll.
+NM 52 45 5 Oct SurveyUSA
+NY 65 29 31 Oct Marist Coll.
+NC 48 49 15 Oct Rasmussen
+ND 45 45 3 Oct Research2000
+OH 49 45 20 Oct Rasmussen
+OK 35 59 7 Oct SurveyUSA
+OR 49 41 7 Oct Northern Arizona U.
+PA 50 41 21 Oct Temple U.
+RI 48 26 4 Sep Opinion Factor
+SC 43 54 8 Oct Rasmussen
+SD 41 50 3 Oct Research2000
+TN 38 54 11 Oct Research2000
+TX 44 54 34 Oct Rasmussen
+UT 29 65 5 Sep ARG
+VT 57 36 3 Oct Research2000
+VA 51 47 13 Oct Rasmussen
+WA 55 34 11 Oct U. of Washington
+WV 40 50 5 Oct Zogby
+WI 51 44 10 Oct Rasmussen
+WY 37 58 3 Oct SurveyUSA
