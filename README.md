@@ -1,5 +1,6 @@
 # 21-22_Advanced_Computer_Science_AB
-A collection of java labs and classwork for my Advanced Computer Science AB class (2021-2022 school year). I took this class after AP Computer Science A
+A collection of java labs and classwork for my Advanced Computer Science AB class (2021-2022 school year). I took 
+this class after AP Computer Science A.
 
 *Files are divided by labs and units*
 
@@ -22,4 +23,4 @@ A collection of java labs and classwork for my Advanced Computer Science AB clas
 - Unit 2: Maze, Area Fill
 - Unit 4: Doubly-Circular Linked List
 
-*Program outputs are at the bottom of each file*
+*Program outputs are at the bottom of each Lab*
