@@ -10,7 +10,7 @@ package com.thuitema.Labs;
  *
  * What I learned:
  *  The dummy header node is like any other node, but its not considered as part of the actual list
- *  You get the first node by doing "head.getNext()" and the last node by doing "head.getPrev()"
+ *  You get the "first" node by doing "head.getNext()" and the last node by doing "head.getPrev()"
  *  The dummy header node was helpful because you didn't have to check if the DCLL was null
  *  When dealing with an index parameter, it's important to check if it's out of bounds. If so, throw an IndexOutOfBoundsException
  *
@@ -22,55 +22,54 @@ package com.thuitema.Labs;
  *  understood it, I was confident in completing the lab.
  *
  * What I wonder:
- *  Are there any situations where a singular, circular, or doubly-linked list is better than a doubly circular linked list?
+ *  Are there any situations where a singular, circular, or doubly-linked list is better/more efficient than a doubly circular linked list?
  *  What are the real-life applications of linked lists?
  *  Are there any other types of linked lists besides singular, doubly, circular, and doubly circular?
  *
- * Student(s) who helped me (to what extent): 
+ * Student(s) who helped me (to what extent): none
  *************************************************************************************************************************************************/
 
+
 /**
- * NOTE: in methods involving an index parameter, the "first" node (node after dummy header) is index 1. remove(1) would remove the node head is pointing to
+ * NOTE: in methods involving an index parameter, the "first" node (node after dummy header) is index 1. remove(1) would remove the node after head
  **/
 
-/*
-TODO:
-  - add(int index, E obj)
-  - remove(int index)
-  - put output at bottom
-*/
 
 class Pd6ThomasHuitemaDCLL<E> {
     private int size;
     private DLNode<E> head = new DLNode<>(); // dummy node - very useful - simplifies the code
 
-    /* pre: List is provided
-       post: return size */
-    public int size() {
-        return size;
-    }
 
-    /* appends obj to end of list; increases size;
-          @return true  */
+    /* pre: List is provided
+      post: inserts object at list index; increases size */
+    public void add(int index, E obj) {
+        if (index < 1 || index > size + 1) { // index > size + 1 so user can insert after last node (addLast())
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+        DLNode<E> temp = head;
+        for (int c = 1; c < index; c++) { // get node before index
+            temp = temp.getNext();
+        }
+        // insert node between temp & temp.getNext()
+        DLNode<E> insertNode = new DLNode<>(obj, temp, temp.getNext());
+        temp.getNext().setPrev(insertNode);
+        temp.setNext(insertNode);
+        size++;
+    } // add
+
+    /* pre: List is provided
+      post: appends object to end of list; increases size */
     public boolean add(E obj) {
         // point last node to new node, set prev of head to new node
-        DLNode<E> newLast = new DLNode<E>(obj, head.getPrev(), head);
+        DLNode<E> newLast = new DLNode<>(obj, head.getPrev(), head);
         head.getPrev().setNext(newLast);
         head.setPrev(newLast);
         size++;
         return true;
     } // add
 
-
-    // inserts obj at position index.  increments size.
-    public void add(int index, E obj) {
-        if (index < 1 || index > size) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
-        }
-        size++;
-    } // add
-
-    // inserts obj at front of list; increases size;
+    /* pre: List is provided
+       post: inserts object at front of list; increases size */
     public void addFirst(E obj) {
         DLNode<E> newFirst = new DLNode<>(obj, head, head.getNext());
         head.getNext().setPrev(newFirst);
@@ -78,42 +77,37 @@ class Pd6ThomasHuitemaDCLL<E> {
         size++;
     } // addFirst
 
-
-    // appends obj to end of list; increases size;
+    /* pre: List is provided
+      post: appends object to end of list; increases size */
     public void addLast(E obj) {
         // point last node to new node, set prev of head to new node
-        DLNode<E> newLast = new DLNode<E>(obj, head.getPrev(), head);
+        DLNode<E> newLast = new DLNode<>(obj, head.getPrev(), head);
         head.getPrev().setNext(newLast);
         head.setPrev(newLast);
         size++;
     } // addLast
 
-    /* removes the node from position index, decrements size.
-          @return the object at position index.
-        */
+
+    /* pre: List is provided
+       post: remove node at index and return that value; decreases size */
     public E remove(int index) {
         if (index < 1 || index > size) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
+        DLNode<E> temp = head;
+        for (int c = 1; c <= index; c++) { // get node at index (the node we want to delete)
+            temp = temp.getNext();
+        }
+        E value = temp.getValue();
+        temp.getNext().setPrev(temp.getPrev());
+        temp.getPrev().setNext(temp.getNext());
+
         size--;
-        return null;
+        return value;
     } // remove
 
     /* pre: List is provided
-       post: remove last value and return that value*/
-    public E removeLast() {
-        if (head.getNext() == head) { // don't want to delete dummy header if the list is empty
-            return null;
-        }
-        E value = head.getPrev().getValue();
-        head.setPrev(head.getPrev().getPrev());
-        head.getPrev().setNext(head);
-        size--;
-        return value;
-    } // removeLast
-
-    /* pre: List is provided
-       post: remove first value and return that value */
+       post: remove first value and return that value; decreases size */
     public E removeFirst() {
         if (head.getNext() == head) {
             return null;
@@ -125,24 +119,24 @@ class Pd6ThomasHuitemaDCLL<E> {
         return value;
     } // removeFirst
 
-    // replaces obj at position index.
-    public void set(int index, E obj) {
-        if (index < 1 || index > size) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+    /* pre: List is provided
+           post: remove last value and return that value; decreases size */
+    public E removeLast() {
+        if (head.getNext() == head) { // don't want to delete dummy header if the list is empty
+            return null;
         }
+        E value = head.getPrev().getValue();
+        head.setPrev(head.getPrev().getPrev());
+        head.getPrev().setNext(head);
+        size--;
+        return value;
+    } // removeLast
 
-        DLNode<E> temp = head;
-        for (int c = 1; c <= index; c++) {
-            temp = temp.getNext();
-        }
-        temp.setValue(obj);
 
-
-    } // set
-
+    /* pre: List is provided
+       post: return value at index */
     public E get(int index) {
         if (index < 1 || index > size) {
-            //            return null;
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
         }
         DLNode<E> temp = head;
@@ -155,15 +149,36 @@ class Pd6ThomasHuitemaDCLL<E> {
     /* pre: List is provided
        post: return first value */
     public E getFirst() {
-        return head.getNext().getValue(); // list is empty
+        return head.getNext().getValue();
     } // getFirst
-
 
     /* pre: List is provided
        post: return last value */
     public E getLast() {
-        return head.getPrev().getValue(); // list is empty
+        return head.getPrev().getValue();
     } // getLast
+
+
+    /* pre: List is provided
+         post: sets the values of the node at index */
+    public void set(int index, E obj) {
+        if (index < 1 || index > size) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + size);
+        }
+
+        DLNode<E> temp = head;
+        for (int c = 1; c <= index; c++) {
+            temp = temp.getNext();
+        }
+        temp.setValue(obj);
+    } // set
+
+
+    /* pre: List is provided
+       post: return size */
+    public int size() {
+        return size;
+    }
 
 
     /* pre: List is provided
@@ -185,6 +200,7 @@ class Pd6ThomasHuitemaDCLL<E> {
     } // toString
 }  // DCLL
 
+
 public class Pd6ThomasHuitemaDCLLDriver {
     public static void main(String[] args) {
         Pd6ThomasHuitemaDCLL<String> list = new Pd6ThomasHuitemaDCLL<>();
@@ -197,32 +213,30 @@ public class Pd6ThomasHuitemaDCLLDriver {
         System.out.println(list);
         System.out.println("Size: " + list.size());
 
-        //        Object obj = list.remove(3);
-        //        System.out.println(list);
+        Object obj = list.remove(3);
+        System.out.println(list);
 
-        //        System.out.println("Size: " + list.size());
-        //        System.out.println("Removed " + obj);
-        //
-        //        System.out.print("Add at 3:   ");
-        //        list.add(3, "Cheese");
-        //        System.out.println(list);
-        //
-        //        System.out.println("Get values at 1 and first: " + list.get(1) + " and " + list.getFirst());
-        //        System.out.println("No change: " + list);
-        //
-        //        System.out.println(list.getFirst() + " " + list.getLast());
-        //        System.out.println(list.removeLast() + " is now removed!");
-        //        System.out.println(list);
-        //
-        //        System.out.print("Add first: ");
-        //        list.addFirst("Anchovie");
-        //        System.out.println(list);
-        //        System.out.println("Size: " + list.size());
-        //
-        //                System.out.print("Set the second:  ");
-        //                list.set(2, "Bread");
-        //                System.out.println(list);
-        System.out.println(list.get(10));
+        System.out.println("Size: " + list.size());
+        System.out.println("Removed " + obj);
+
+        System.out.print("Add at 3:   ");
+        list.add(3, "Cheese");
+        System.out.println(list);
+
+        System.out.println("Get values at 1 and first: " + list.get(1) + " and " + list.getFirst());
+        System.out.println("No change: " + list);
+
+        System.out.println(list.removeLast() + " is now removed!");
+        System.out.println(list);
+
+        System.out.print("Add first: ");
+        list.addFirst("Anchovie");
+        System.out.println(list);
+        System.out.println("Size: " + list.size());
+
+        System.out.print("Set the second:  ");
+        list.set(2, "Bread");
+        System.out.println(list);
     } // main
 }
 
@@ -269,23 +283,20 @@ class DLNode<E> {
 }  // DLNode
    
 
-
 /*
-  ----jGRASP exec: java Pd2MinJiKangDLL
-  Apple Banana Cucumber Dumpling Escargot
- Size: 5
-  Apple Banana Cucumber Escargot
- Size: 4
- Removed Dumpling
- Add at 3:    Apple Banana Cucumber Cheese Escargot
- Get values at 1 and first: Banana and Apple
- No change:  Apple Banana Cucumber Cheese Escargot
- Escargot is now removed!
-  Apple Banana Cucumber Cheese
- Add first:   Anchovie Apple Banana Cucumber Cheese
- Size: 5
- Set the second:   Anchovie Bread Banana Cucumber Cheese
- 
-  ----jGRASP: operation complete.
- 
+    [Apple, Banana, Cucumber, Dumpling, Escargot]
+    Size: 5
+    [Apple, Banana, Dumpling, Escargot]
+    Size: 4
+    Removed Cucumber
+    Add at 3:   [Apple, Banana, Cheese, Dumpling, Escargot]
+    Get values at 1 and first: Apple and Apple
+    No change: [Apple, Banana, Cheese, Dumpling, Escargot]
+    Escargot is now removed!
+    [Apple, Banana, Cheese, Dumpling]
+    Add first: [Anchovie, Apple, Banana, Cheese, Dumpling]
+    Size: 5
+    Set the second:  [Anchovie, Bread, Banana, Cheese, Dumpling]
+
+    Process finished with exit code 0
 */
